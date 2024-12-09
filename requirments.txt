@@ -1,0 +1,41 @@
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(80) UNIQUE NOT NULL,
+    password VARCHAR(120) NOT NULL
+);
+CREATE TABLE recipes (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    ingredients TEXT NOT NULL,
+    instructions TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
+INSERT INTO users (username, password)
+VALUES ('example_user', 'hashed_password');  -- Replace 'hashed_password' with the actual hashed password
+INSERT INTO recipes (title, ingredients, instructions, user_id)
+VALUES 
+('Pancakes', '1 cup flour, 2 eggs, 1 cup milk', 'Mix all ingredients and cook on a skillet.', 1),
+('Spaghetti', '200g spaghetti, 1 jar marinara sauce', 'Boil spaghetti and add sauce.', 1),
+('Omelette', '3 eggs, salt, pepper', 'Beat eggs, pour into a pan, and cook.', 1);
+SELECT * FROM users;
+SELECT * FROM users;
+SELECT r.id, r.title, r.ingredients, r.instructions, r.created_at, u.username
+FROM recipes r
+JOIN users u ON r.user_id = u.id
+ORDER BY r.created_at DESC;
+SELECT r.id, r.title, r.ingredients, r.instructions, r.created_at, u.username
+FROM recipes r
+JOIN users u ON r.user_id = u.id
+WHERE r.id = 1;  -- Replace 1 with the actual recipe ID
+UPDATE users
+SET password = 'new_hashed_password'  -- Replace with the actual new hashed password
+WHERE id = 1;  -- Replace 1 with the actual user ID
+UPDATE recipes
+SET title = 'Updated Recipe Title', ingredients = 'Updated ingredients', instructions = 'Updated instructions'
+WHERE id = 1;  -- Replace 1 with the actual recipe ID
+DELETE FROM users
+WHERE id = 1;  -- Replace 1 with the actual user ID
+DELETE FROM recipes
+WHERE id = 1;  -- Replace 1 with the actual recipe ID
